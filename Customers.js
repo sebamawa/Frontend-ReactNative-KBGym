@@ -11,8 +11,6 @@ import { getBaseAPIUrl } from './endpoints/endpoints';
 
 function Customers({navigation}) {
 
-  console.log("Customers.js");
-
     const [customers, setCustomers] = useState([]);
     const [loading, setLoading] = useState(false);
     // const [firstRender, setFirstRender] = useState(false);
@@ -68,7 +66,6 @@ function Customers({navigation}) {
               setLoadingCountCustomersWithDebt(true);
       
               const url = await getBaseAPIUrl();
-              console.log(`url: ${url}`);
               const response = await fetch(`${url}/CustomersAPI/CountCustomersWithDebt?cust_active=true`);
       
               const json = await response.json(); 
@@ -97,8 +94,7 @@ function Customers({navigation}) {
               setLoading(true);
       
               const url = await getBaseAPIUrl();
-
-              console.log(`url: ${url}`);
+              
               let response = null;
               if (customerNameFilter !== "") { // filter to search by name not empty
                 response = await fetch(`${url}/KBGymTemplateJavaMySQL/CustomersAPI/GetByName?cust_fullname=${customerNameFilter}&cust_active=${cust_active}&page_number=1&page_size=20`);

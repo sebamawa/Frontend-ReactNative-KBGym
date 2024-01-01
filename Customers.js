@@ -97,14 +97,14 @@ function Customers({navigation}) {
               
               let response = null;
               if (customerNameFilter !== "") { // filter to search by name not empty
-                response = await fetch(`${url}/KBGymTemplateJavaMySQL/CustomersAPI/GetByName?cust_fullname=${customerNameFilter}&cust_active=${cust_active}&page_number=1&page_size=20`);
+                response = await fetch(`${url}/CustomersAPI/GetByName?cust_fullname=${customerNameFilter}&cust_active=${cust_active}&page_number=1&page_size=20`);
                 // response = await fetch(`${baseRemoteUrl}/CustomersAPI/GetByName?cust_fullname=${customerNameFilter}&cust_active=${cust_active}&page_number=1&page_size=25`);
               } else {
                 response = await fetch(`${url}/CustomersAPI/List?cust_active=${cust_active}&page_number=1&page_size=25`);
                 //response = await fetch(`${baseRemoteUrl}/CustomersAPI/List?cust_active=${cust_active}&page_number=1&page_size=25`);
               }
               const json = await response.json();
-              const customers = json.SDTCustomerColl;
+              const customers = json.SDTCustomerColl !== undefined ? json.SDTCustomerColl : [];
               // TODO: sort customers by cust_has_debt
               const customersWithDebts = customers.filter(c => c.cust_has_debt === true);
               const customersWithoutDebts = customers.filter(c => c.cust_has_debt === false);
@@ -132,7 +132,7 @@ function Customers({navigation}) {
               placeholder="Search customers"
               value={customerNameFilter}
               onChangeText={text =>setCustomerNameFilter(text)}
-              elevation={5}
+              //elevation={5}
             />
             <View style={{flex: 0.4}}>
               <Picker

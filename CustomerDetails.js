@@ -116,7 +116,7 @@ function CustomerDetails({route, navigation}) {
                         <View style={{flexDirection: "row"}}>
                             <Text style={{fontWeight: "bold"}}>Payday limit: {customer.cust_payday_limit === "0000-00-00" ? "-" : customer.cust_payday_limit}</Text> 
                             <Button 
-                                    icon={'pencil'}
+                                    icon="pencil"
                                     title="Add Item"
                                     onPress={() => setOpenModalDataPicker(true)}
                             ></Button>
@@ -182,13 +182,13 @@ function CustomerDetails({route, navigation}) {
                     <View>   
                         <Button 
                             title="Invoices" 
-                            style={[{backgroundColor: 'blue'}, {marginTop: 10}, {borderColor: 'black'}, {borderWidth: 1}]}
+                            style={[{backgroundColor: 'yellow'}, {marginTop: 10}, {borderColor: 'black'}, {borderWidth: 1}]}
                             onPress={() => navigation.navigate('Customer Invoices', {customer})}    
                         >INVOICES</Button>   
                         <View style={{height: 20}} />
                         <Button 
                             title="Debts" 
-                            style={[{backgroundColor: 'blue'}, {marginTop: 10}, {borderColor: 'black'}, {borderWidth: 1}]}
+                            style={[{backgroundColor: 'yellow'}, {marginTop: 10}, {borderColor: 'black'}, {borderWidth: 1}]}
                             onPress={() => navigation.navigate('Customer Debts', {customer})}    
                         >DEBTS</Button>  
                     </View>                      

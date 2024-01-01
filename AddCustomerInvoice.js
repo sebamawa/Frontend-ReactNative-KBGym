@@ -2,9 +2,8 @@ import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-native-date-picker'
 import { Alert, ScrollView, Text, View, TextInput, Image, StyleSheet } from 'react-native';
 import CheckBox from '@react-native-community/checkbox';
-import { Button, ActivityIndicator } from 'react-native-paper';
+import { Button, ActivityIndicator,DataTable } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
-import { DataTable } from 'react-native-paper';
 
 import { getBaseAPIUrl } from './endpoints/endpoints';
 
@@ -13,12 +12,13 @@ function AddCustomerInvoice({navigation, route}) {
     const {customer} = route.params;
 
     const [inv_date, setInv_date] = useState(new Date()); // TODO: set date to today
-    const datePlus30Days = (date) => { 
+    const datePlusOneMonth = (date) => { 
         const newDate = new Date(date);
-        newDate.setDate(newDate.getDate() + 30);
+        //newDate.setDate(newDate.getDate() + 30);
+        newDate.setMonth(newDate.getMonth() + 1);
         return newDate;
     }
-    const [inv_next_expiration_date, setInv_next_expiration_date] = useState(datePlus30Days(inv_date)); 
+    const [inv_next_expiration_date, setInv_next_expiration_date] = useState(datePlusOneMonth(inv_date)); 
     const [edit_inv_expiration_date, setInv_edit_expiration_date] = useState(false);
     const [inv_total, setInv_total] = useState(0);
 
@@ -149,9 +149,10 @@ function AddCustomerInvoice({navigation, route}) {
            
            const url = await getBaseAPIUrl();
            // const response = await fetch(`http://192.168.1.5:8080/KBGymTemplateJavaMySQL/ServicesAPI/List?serv_type_id=2`);
-           const response = await fetch(`${url}/ServicesAPI/List?serv_type_id=2`);
-          
+           const response = await fetch(`${url}/ServicesAPI/List?serv_type_id=1`);
+        
            const json = await response.json();
+           
            setServices(json.SDTServices);
            const firstServ = json.SDTServices[0];
            setSelectedService(firstServ);
@@ -162,7 +163,7 @@ function AddCustomerInvoice({navigation, route}) {
          } catch (error) {
             console.log(error);
             Alert.alert(`Error: ${error}`);
-            navigation.navigate('ErrorCustomersNavigation');
+            // navigation.navigate('ErrorCustomersNavigation');
          }  
    })(); 
    }, []);       
@@ -185,7 +186,7 @@ function AddCustomerInvoice({navigation, route}) {
                     />
                     <View>
                         <View style={[{flexDirection: 'row'}]}>
-                        <Text>{" Paga fuera de periodo: "}</Text>
+                        <Text>{"Pay out of period: "}</Text>
                         <CheckBox
                             value={customer.cust_pay_out_of_period}
                             enabled={false}
@@ -193,7 +194,7 @@ function AddCustomerInvoice({navigation, route}) {
                             //     setCust_pay_out_of_period(value)}
                         /> 
                         </View>  
-                        <Text>{`Fecha límite pago: ${customer.cust_payday_limit}`}</Text>
+                        <Text style={{fontWeight: "bold"}}>Payday limit: {customer.cust_payday_limit === "0000-00-00" ? "-" : customer.cust_payday_limit}</Text>
                     </View>
                 </View>  
             </View>
